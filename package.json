@@ -1,0 +1,25 @@
+{
+  "name": "link-shortener",
+  "version": "1.0.0",
+  "description": "this is link shortener api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meitix/Link-Shortener-API.git"
+  },
+  "keywords": [
+    "link",
+    "nodejs",
+    "mongodb",
+    "express"
+  ],
+  "author": "Mahdi Valizadeh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meitix/Link-Shortener-API/issues"
+  },
+  "homepage": "https://github.com/meitix/Link-Shortener-API#readme"
+}

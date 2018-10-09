@@ -2,20 +2,23 @@ import express, { Express as IExpress } from "express";
 import * as bodyParser from "body-parser";
 import cors from "cors";
 import AppRoutes from "./routes";
+import Database from "./dal/database.config";
 
 class App {
   private app: IExpress;
 
   constructor() {
     this.app = express();
-    this.configMiddleware();
+    this.init();
   }
 
-  private configMiddleware() {
+  private init() {
     this.app.use(bodyParser.json());
     this.app.use(cors());
     AppRoutes.init(this.app);
+    Database.init();
   }
+
 
   listen(port: number) {
     this.app.listen(port);

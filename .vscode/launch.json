@@ -8,7 +8,8 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\dist\\src\\link-shortener.server.js",
+            // "program": "${workspaceFolder}\\dist\\src\\link-shortener.server.js",
+            "program": "${workspaceFolder}\\link-shortener.server.ts",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]

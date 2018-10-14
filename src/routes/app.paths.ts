@@ -1,3 +1,4 @@
 export const AppPaths = {
-    link: '/link'
+    link: '/link',
+    shorten: '/'
 }

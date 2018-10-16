@@ -1,5 +1,5 @@
 import express from "express";
-import ShortenController from "./controllers/shorten.controller";
+import {ShortenController} from "./controllers/shorten.controller";
 import { ShortenPaths } from "./shorten-paths";
 
 class ShortenRouter {
@@ -14,8 +14,10 @@ class ShortenRouter {
 
   // initial the routes link managements.
   private init() {
-    //create new link.
+    //load a link by shorten code.
     this.router.route(ShortenPaths.code).get(this.controller.load);
+    // load analytics information about a link by shorten code.
+    this.router.route(ShortenPaths.info).get(this.controller.info)
   }
 }
 

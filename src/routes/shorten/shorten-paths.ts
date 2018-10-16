@@ -1,3 +1,4 @@
 export const ShortenPaths = {
-    code: '/:code'
+    code: '/:code',
+    info: '/info/:code'
 }

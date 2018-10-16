@@ -4,6 +4,7 @@ import { Schema, Model, model } from "mongoose";
 import Messages from "../../preferences/Messages";
 import shortenLinkGenerator from "../../business-logic/link/shorten-link-generator";
 import { ObjectID } from "bson";
+const PersianDate = require('persian-date');
 
 export const LinkSchema = new Schema({
   address: {
@@ -19,6 +20,11 @@ export const LinkSchema = new Schema({
     type: Date,
     required: Messages.linkMessages.createDateIsRequired,
     default: Date.now
+  },
+  createDateFa: {
+    type: Object,
+    required: Messages.linkMessages.createDateIsRequired,
+    default: new PersianDate()
   },
   data: {
     type: Array<AnalyticsData>(),

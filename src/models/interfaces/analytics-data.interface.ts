@@ -1,7 +1,10 @@
+import { UserAgent } from "express-useragent";
+
 export interface AnalyticsData {
     ip: string;
-    userAgent?: string;
+    userAgent?: UserAgent;
     location: any;
     date: Date,
-    dateFa: any
+    dateFa: any,
+    referrer?: string
 }

@@ -34,7 +34,6 @@
     "express": "^4.16.3",
     "express-useragent": "^1.0.12",
     "iplocation": "^5.0.1",
-    "linq": "^3.1.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.3.2",
     "persian-date": "^1.0.5",

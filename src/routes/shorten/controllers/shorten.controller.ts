@@ -16,9 +16,10 @@ export class ShortenController {
       .then(link => {
         if (link) {
           // save user info.
-          iplocation("5.78.186.10", (err: any, loc: any) => {
+          const userIp = req.header('x-forwarded-for');
+          iplocation( userIp, (err: any, loc: any) => {
             const userData: AnalyticsData = {
-              ip: "5.78.186.10", //req.ip,
+              ip: userIp || '',
               userAgent: parseUserAgent(req.headers["user-agent"] || ""),
               location: loc || err,
               date: new Date(),
@@ -51,9 +52,13 @@ export class ShortenController {
 
         const platforms = _.countBy(link.data, "userAgent.os");
         const browsers = _.countBy(link.data, "userAgent.browser");
-        const locations = _.countBy(link.data, "location.city");
+        const locations = _.countBy(link.data, "location.country_name");
         const referrers = _.countBy(link.data, l => {
-          if ((<AnalyticsData>l).referrer) return l;
+          if ((<AnalyticsData>l).referrer) return l.referrer;
+        });
+        const clicksByDate = _.countBy(link.data, l => {
+          const pdate = new PersianDate((<AnalyticsData>l).dateFa);
+          return pdate.year() + "/" + pdate.month() + "/" + pdate.day();
         });
 
         res.json({
@@ -67,7 +72,8 @@ export class ShortenController {
           referrers,
           browsers,
           locations,
-          platforms
+          platforms,
+          clicksByDate
         });
       })
       .catch(err => {

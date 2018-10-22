@@ -15,12 +15,13 @@ class App {
   private init() {
     this.app.use(bodyParser.json());
     this.app.use(cors());
+    this.app.use(express.static('public'));
     AppRoutes.init(this.app);
     Database.init();
   }
 
 
-  listen(port: number) {
+  listen(port: number | string) {
     this.app.listen(port);
   }
 }

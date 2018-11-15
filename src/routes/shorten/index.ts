@@ -1,6 +1,6 @@
 import express from "express";
 import {ShortenController} from "./controllers/shorten.controller";
-import { ShortenPaths } from "./shorten-paths";
+import { ShortenPaths } from "./shorten.paths";
 
 class ShortenRouter {
   private controller: ShortenController;

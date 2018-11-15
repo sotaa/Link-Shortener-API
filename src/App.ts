@@ -13,14 +13,20 @@ class App {
   }
 
   private init() {
+    // initial needed middlewares.
     this.app.use(bodyParser.json());
-    this.app.use(cors());
+    this.app.use(cors()); // allow cross origin requests.
+    
+    // initial public folder to be available on the web.
     this.app.use(express.static('public'));
+
+    // initial application routes.
     AppRoutes.init(this.app);
+    // initial database.
     Database.init();
   }
 
-
+  // start the server using this method.
   listen(port: number | string) {
     this.app.listen(port);
   }

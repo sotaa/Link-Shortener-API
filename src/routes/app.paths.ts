@@ -1,4 +1,5 @@
 export const AppPaths = {
     link: '/link',
-    shorten: '/'
+    shorten: '/',
+    auth: '/user'
 }

@@ -6,13 +6,14 @@ import isMobilePhone = require("validator/lib/isMobilePhone");
 import tokenManager from '../../business-logic/token-manager';
 import { TokenType } from '../interfaces/token.interface';
 import _ from 'lodash';
+import { genSalt, hash } from 'bcryptjs';
 
 export const UserSchema = new Schema({
   email: {
     type: String,
     validate: {
       validator: isEmail,
-      message: Messages.userDataMessages.emailIsIncorrect
+      message: Messages.userMessages.emailIsIncorrect
     },
     trim: true,
     required: false,
@@ -21,7 +22,7 @@ export const UserSchema = new Schema({
   password: {
     required: true,
     type: String,
-    minlength: [6, Messages.userDataMessages.passwordMustBeAtLeast6Character]
+    minlength: [6, Messages.userMessages.passwordMustBeAtLeast6Character]
   },
   mobile: {
     type: String,
@@ -30,7 +31,7 @@ export const UserSchema = new Schema({
       validator: (value: string) => {
         return isMobilePhone(value, "fa-IR");
       },
-      message: Messages.userDataMessages.mobileIsIncorrect
+      message: Messages.userMessages.mobileIsIncorrect
     }
   },
   tokens: [
@@ -63,10 +64,20 @@ UserSchema.methods.generateAuthToken = function() {
   return user.save().then(() => token);
 }
 
+UserSchema.pre('save' , async function(next) {
+  const user = <IUser>this;
+  if(user.isModified('password')) {
+    const salt = await genSalt(20);
+    const hashedPass = await hash(user.password , salt);
+    user.password = hashedPass;
+  }
+  next();
+});
+
 // handle duplicate email error.
 UserSchema.post('save', function(error, doc, next) {
   if (error.name === 'MongoError' && error.code === 11000) {
-    next(new Error(Messages.userDataMessages.emailIsExists));
+    next(new Error(Messages.userMessages.emailIsExists));
   } else {
     next(error);
   }

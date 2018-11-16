@@ -11,7 +11,8 @@ export const LinkSchema = new Schema({
   address: {
     type: String,
     validate: {
-      validator: isURL
+      validator: isURL,
+      message: Messages.linkMessages.linkIsNotCorrect
     },
     required: [true , Messages.linkMessages.linkIsRequired]
   },

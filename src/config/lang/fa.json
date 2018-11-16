@@ -2,12 +2,14 @@
   "linkMessages": {
     "linkIsRequired": "لینک اجباری است",
     "shortenIsRequired": "مقدار کوتاه شده لینک تولید نشده است",
-    "createDateIsRequired": "تاریخ ثبت تولید نشده است"
+    "createDateIsRequired": "تاریخ ثبت تولید نشده است",
+    "linkIsNotCorrect": "لینک صحیح نیست لطفا لینک را با \"http://\" , \"https://\" و یا \"ftp://\" شروع کنید"
   },
-  "userDataMessages": {
+  "userMessages": {
     "emailIsIncorrect": "ایمیل وارد شده صحیح نیست",
     "passwordMustBeAtLeast6Character": "کلمه عبور باید حداقل ۶ حرف باشد",
     "mobileIsIncorrect": "شماره موبایل صحیح نیست",
-    "emailIsExists": "این ایمیل قبلا ثبت شده است"
+    "emailIsExists": "این ایمیل قبلا ثبت شده است",
+    "loginFailed": "کلمه عبور یا نام کاربری صحیح نیست"
   }
 }

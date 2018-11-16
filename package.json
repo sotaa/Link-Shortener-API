@@ -27,6 +27,9 @@
   },
   "homepage": "https://github.com/meitix/Link-Shortener-API#readme",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.3.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
@@ -40,7 +43,6 @@
     "persian-date": "^1.0.5",
     "shortid": "^2.2.13",
     "uuid": "^3.3.2",
-    "@types/jsonwebtoken": "^8.3.0",
     "validator": "^10.9.0"
   },
   "devDependencies": {

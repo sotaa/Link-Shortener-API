@@ -28,7 +28,9 @@ class App {
 
   // start the server using this method.
   listen(port: number | string) {
-    this.app.listen(port);
+    this.app.listen(port , () => {
+      console.log(`link shortener web app is started on port ${port}`)
+    });
   }
 }
 

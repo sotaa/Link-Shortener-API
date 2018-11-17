@@ -1,3 +1,4 @@
 export const UserPaths = {
-    register: '/'
+    register: '/',
+    login: '/login'
 }

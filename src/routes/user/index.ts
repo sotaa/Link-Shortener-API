@@ -13,8 +13,10 @@ class AuthRoutes {
   }
 
   init() {
-    // set register path.
+    // set register path controller.
     this.router.route(UserPaths.register).post(this.controller.register);
+    // set login path controller.
+    this.router.route(UserPaths.login).post(this.controller.login);
   }
 }
 

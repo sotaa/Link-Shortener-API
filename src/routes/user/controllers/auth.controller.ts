@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import _ from "lodash";
 import { User } from "../../../models/entities/user.schema";
 import Messages from "../../../preferences/Messages";
+import { IUser } from "../../../models/interfaces/user.interface";
 
 export class AuthController {
 
@@ -16,7 +17,7 @@ export class AuthController {
       .then(() => {
         // generate the token.
         user.generateAuthToken().then((token: string) => {
-          res.header("x-auth", token).send(user.toJSON());
+          res.header("x-new-token", token).send(user.toJSON());
         });
       })
       .catch(err => {
@@ -27,11 +28,18 @@ export class AuthController {
   // login requests handler.
   login(req: Request , res: Response) {
     const data = _.pick(req.body , ["email" , "password"]);
-    User.findOne(data).then(user => {
+    User.findByCredentials(data).then((user: IUser) => {
       if(!user) {
-        res.status(404).send({message: Messages.userMessages.loginFailed})
+        res.status(404).send({message: Messages.userMessages.loginFailed});
+        return;
       }
-    }).catch(err => {
+
+      // generate new token for logged in user.
+      user.generateAuthToken().then(token => {
+        res.header('x-new-token' , token).send(user);
+      });
+      
+    }).catch((err: any) => {
       res.status(400).send(err);
     });
   }

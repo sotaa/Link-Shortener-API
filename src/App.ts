@@ -1,4 +1,4 @@
-import express, { Express as IExpress } from "express";
+import express, { Express as IExpress , Request , Response } from "express";
 import * as bodyParser from "body-parser";
 import cors from "cors";
 import AppRoutes from "./routes";
@@ -13,6 +13,7 @@ class App {
   }
 
   private init() {
+ 
     // initial needed middlewares.
     this.app.use(bodyParser.json());
     this.app.use(cors()); // allow cross origin requests.

@@ -16,6 +16,10 @@ export const LinkSchema = new Schema({
     },
     required: [true , Messages.linkMessages.linkIsRequired]
   },
+  userId: {
+    type: String,
+    required: false
+  },
   shorten: {
     type: String,
     required: Messages.linkMessages.shortenIsRequired,

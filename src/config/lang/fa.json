@@ -10,6 +10,14 @@
     "passwordMustBeAtLeast6Character": "کلمه عبور باید حداقل ۶ حرف باشد",
     "mobileIsIncorrect": "شماره موبایل صحیح نیست",
     "emailIsExists": "این ایمیل قبلا ثبت شده است",
-    "loginFailed": "کلمه عبور یا نام کاربری صحیح نیست"
+    "loginFailed": "کلمه عبور یا نام کاربری صحیح نیست",
+    "nameIsRequired": "لطفا نام خود را وارد کنید"
+  },
+
+  "paymentPlanMessages": {
+    "planNameIsRequired": "لطفا نام پلن را وارد نمایید",
+    "planPriceIsRequired": "لطفا قیمت پلن را وارد نمایید",
+    "priceIsNotValid": "مقدار مبلغ صحیح نیست",
+    "dateRangeIsNotValid": "مقدار بازه زمانی صحیح نیست"
   }
 }

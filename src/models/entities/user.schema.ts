@@ -7,8 +7,13 @@ import tokenManager from "../../business-logic/token-manager";
 import { TokenType } from "../interfaces/token.interface";
 import _ from "lodash";
 import { genSalt, hash, compare } from "bcryptjs";
+const persianDate = require('persian-date');
 
 export const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: [true , Messages.userMessages.nameIsRequired]
+  },
   email: {
     type: String,
     validate: {
@@ -45,14 +50,23 @@ export const UserSchema = new Schema({
         required: true
       }
     }
-  ]
+  ],
+  expireDate: {
+    required: false,
+    type: Object
+  },
+  registerDate: {
+    required: true,
+    type: Object,
+    default: new persianDate()
+  }
 });
 
 // make json object.
 UserSchema.methods.toJSON = function() {
   const user = this;
   var userObject = user.toObject();
-  return _.pick(userObject, ["_id", "email", "mobile"]);
+  return _.pick(userObject, ["_id", "email", "mobile" , "name"]);
 };
 
 // generate auth token.
@@ -61,6 +75,7 @@ UserSchema.methods.generateAuthToken = function() {
   const token = tokenManager.generate({
     _id: user._id,
     email: user.email,
+    name: user.name,
     mobile: user.mobile
   });
   user.tokens = user.tokens || []; // make empty array if there are no token.
@@ -75,7 +90,6 @@ UserSchema.statics.findByCredentials = function(credentials: any) {
     .then(async (user: IUser) => {
       // reject the promise if the user does not found;
       if (!user) return Promise.reject(Messages.userMessages.loginFailed);
-
       // compare password with the hashed value.
       const passIsCorrect = await compare(credentials.password, user.password);
       // return the result if password is correct.

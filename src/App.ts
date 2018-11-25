@@ -16,11 +16,14 @@ class App {
  
     // initial needed middlewares.
     this.app.use(bodyParser.json());
-    this.app.use(cors()); // allow cross origin requests.
+    this.app.use(cors({preflightContinue:true})); // allow cross origin requests.
     
     // initial public folder to be available on the web.
     this.app.use(express.static('public'));
 
+    // use custom middlewares.
+     this.configAllowedHeaders();
+    
     // initial application routes.
     AppRoutes.init(this.app);
     // initial database.
@@ -33,6 +36,14 @@ class App {
       console.log(`link shortener web app is started on port ${port}`)
     });
   }
+
+  configAllowedHeaders() {
+    this.app.use((req: Request , res: Response , next) => {
+      res.setHeader('Access-Control-Expose-Headers', 'x-new-token')
+      next();
+    });
+  }
+  
 }
 
 export default App;

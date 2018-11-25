@@ -8,7 +8,7 @@ export class AuthController {
 
   // register new user.
   register(req: Request, res: Response) {
-    const data = _.pick(req.body, ["email", "password"]);
+    const data = _.pick(req.body, ["email", "password", "name"]);
     const user = new User(data);
 
     // save user to database.
@@ -17,7 +17,7 @@ export class AuthController {
       .then(() => {
         // generate the token.
         user.generateAuthToken().then((token: string) => {
-          res.header("x-new-token", token).send(user.toJSON());
+          res.header("x-new-token",'Bearer ' +  token).send(user.toJSON());
         });
       })
       .catch(err => {
@@ -36,7 +36,7 @@ export class AuthController {
 
       // generate new token for logged in user.
       user.generateAuthToken().then(token => {
-        res.header('x-new-token' , token).send(user);
+        res.header('x-new-Token' , 'Bearer ' + token).send(user.toJSON());
       });
       
     }).catch((err: any) => {

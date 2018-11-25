@@ -43,7 +43,8 @@
     "persian-date": "^1.0.5",
     "shortid": "^2.2.13",
     "uuid": "^3.3.2",
-    "validator": "^10.9.0"
+    "validator": "^10.9.0",
+    "zarinpal-checkout": "^0.2.7"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",

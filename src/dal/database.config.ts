@@ -6,6 +6,7 @@ import databaseConfig from '../config/settings/database.config.json';
     init() {
         (<any>mongoose).Promise = global.Promise;
         mongoose.connect(databaseConfig.connectionString , {useNewUrlParser: true});
+        mongoose.set('useCreateIndex', true)
     }
 }
 

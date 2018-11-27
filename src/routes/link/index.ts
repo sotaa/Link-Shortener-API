@@ -17,7 +17,7 @@ class LinkRouter {
   // initial the routes link managements.
   private init() {
     // add jwt to route.
-    this.router.use(TokenManager.getVerifyMiddleware());
+    // this.router.use(TokenManager.getVerifyMiddleware());
     //create new link.
     this.router.route(LinkPaths.root).post(this.controller.create);
   }

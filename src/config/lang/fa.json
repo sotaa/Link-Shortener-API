@@ -11,7 +11,9 @@
     "mobileIsIncorrect": "شماره موبایل صحیح نیست",
     "emailIsExists": "این ایمیل قبلا ثبت شده است",
     "loginFailed": "کلمه عبور یا نام کاربری صحیح نیست",
-    "nameIsRequired": "لطفا نام خود را وارد کنید"
+    "nameIsRequired": "لطفا نام خود را وارد کنید",
+    "userIsNotAuthenticated": "کاربر احراز هویت نشده است",
+    "userNotFound": "کاربر مورد نظر یافت نشد"
   },
 
   "paymentPlanMessages": {
@@ -19,5 +21,15 @@
     "planPriceIsRequired": "لطفا قیمت پلن را وارد نمایید",
     "priceIsNotValid": "مقدار مبلغ صحیح نیست",
     "dateRangeIsNotValid": "مقدار بازه زمانی صحیح نیست"
+  },
+
+  "paymentMessages": {
+    "planIsNotDefined": "پلن مالی مشخص نشده است",
+    "authorityIsNotDefined": "کلید مالی ارسال نشده است",
+    "paymentFailed": "پرداخت با مشکل مواجه شد",
+    "paymentHasBeenUsedBefore": "این صورت حساب قبلا اعمال شده است"
+  },
+  "commonMessages": {
+    "serverError": "عملیات با مشکل مواجه شده است"
   }
 }

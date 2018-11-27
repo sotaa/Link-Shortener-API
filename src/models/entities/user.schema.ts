@@ -7,12 +7,12 @@ import tokenManager from "../../business-logic/token-manager";
 import { TokenType } from "../interfaces/token.interface";
 import _ from "lodash";
 import { genSalt, hash, compare } from "bcryptjs";
-const persianDate = require('persian-date');
+const persianDate = require("persian-date");
 
 export const UserSchema = new Schema({
   name: {
     type: String,
-    required: [true , Messages.userMessages.nameIsRequired]
+    required: [true, Messages.userMessages.nameIsRequired]
   },
   email: {
     type: String,
@@ -66,7 +66,23 @@ export const UserSchema = new Schema({
 UserSchema.methods.toJSON = function() {
   const user = this;
   var userObject = user.toObject();
-  return _.pick(userObject, ["_id", "email", "mobile" , "name"]);
+  userObject.remainingDays = 0;
+
+  if (user.expireDate) {
+    // calculate remaining days of user premium account.
+    const userExpireDate = new persianDate(user.expireDate);
+    const now = new persianDate();
+    const diff = userExpireDate.diff(now , 'days');
+    userObject.remainingDays = diff > 0 ? diff : 0;
+  }
+
+  return _.pick(userObject, [
+    "_id",
+    "email",
+    "mobile",
+    "name",
+    "remainingDays"
+  ]);
 };
 
 // generate auth token.

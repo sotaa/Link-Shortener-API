@@ -17,7 +17,9 @@ class ShortenRouter {
     //load a link by shorten code.
     this.router.route(ShortenPaths.code).get(this.controller.load);
     // load analytics information about a link by shorten code.
-    this.router.route(ShortenPaths.info).get(this.controller.info)
+    this.router.route(ShortenPaths.info).get(this.controller.info);
+    // check the shorten value is exists.
+    this.router.route(ShortenPaths.info).head(this.controller.isExists);
   }
 }
 

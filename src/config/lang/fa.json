@@ -30,6 +30,10 @@
     "paymentHasBeenUsedBefore": "این صورت حساب قبلا اعمال شده است"
   },
   "commonMessages": {
-    "serverError": "عملیات با مشکل مواجه شده است"
+    "serverError": "عملیات با مشکل مواجه شده است",
+    "badRequest": "درخواست صحیح نیست"
+  },
+  "category": {
+    "titleIsRequired": "عنوان دسته بندی اجباری است"
   }
 }

@@ -91,6 +91,7 @@ UserSchema.methods.generateAuthToken = function() {
   const token = tokenManager.generate({
     _id: user._id,
     email: user.email,
+    remainingDays: user.remainingDays,
     name: user.name,
     mobile: user.mobile
   });

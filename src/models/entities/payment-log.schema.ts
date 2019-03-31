@@ -29,8 +29,6 @@ export const PaymentLogSchema = new Schema({
         type: Object,
         default: new PersianDate() 
     }
-
-
 });
 
 export const PaymentLog: Model<IPaymentLog> = model('PaymentLog', PaymentLogSchema);

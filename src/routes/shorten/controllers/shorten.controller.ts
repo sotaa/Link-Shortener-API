@@ -16,10 +16,10 @@ export class ShortenController {
       .then(link => {
         if (link) {
           // save user info.
-          const userIp = req.header('x-forwarded-for');
-          iplocation( userIp, (err: any, loc: any) => {
+          const userIp = req.header("x-forwarded-for");
+          iplocation(userIp, (err: any, loc: any) => {
             const userData: AnalyticsData = {
-              ip: userIp || '',
+              ip: userIp || "",
               userAgent: parseUserAgent(req.headers["user-agent"] || ""),
               location: loc || err,
               date: new Date(),
@@ -46,7 +46,7 @@ export class ShortenController {
     Link.findOne({ shorten: params.code })
       .then(link => {
         if (!link) {
-          res.json([]);
+          res.status(404).send([]);
           return;
         }
 
@@ -79,5 +79,17 @@ export class ShortenController {
       .catch(err => {
         res.status(400).json(err);
       });
+  }
+
+  // check shorten is exists.
+  isExists(req: Request, res: Response) {
+    const params = _.pick(req.params, "code");
+    Link.findOne({ shorten: params.code }).then(link => {
+      if (!link) {
+        res.status(404).end();
+      } else {
+        res.end();
+      }
+    });
   }
 }

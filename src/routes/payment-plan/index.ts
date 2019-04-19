@@ -1,5 +1,5 @@
 import { PaymentPlanPaths } from './payment-plan.paths';
-import express  from 'express';
+import * as express  from 'express';
 import { PaymentPlanController } from './controllers/payment-plan.controller';
 
 class PaymentPlanRouter {

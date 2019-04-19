@@ -1,5 +1,5 @@
 import { LinkPaths } from "./link.paths";
-import express from "express";
+import * as express from "express";
 import LinksController from "./controllers/links.controller";
 import { CategoryController } from "./controllers/category.controller";
 

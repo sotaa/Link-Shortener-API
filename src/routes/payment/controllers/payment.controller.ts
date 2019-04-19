@@ -2,7 +2,7 @@ import { User } from "../../../models/entities/user.schema";
 import { IPaymentLog } from "../../../models/interfaces/payment-log.interface.log";
 import { PaymentLog } from "../../../models/entities/payment-log.schema";
 import { Request, Response } from "express";
-import _ from "lodash";
+import * as _ from "lodash";
 import Messages from "../../../preferences/Messages";
 import { IPaymentPlan } from "../../../models/interfaces/payment-plan.interface";
 import { IUser } from "../../../models/interfaces/user.interface";

@@ -11,7 +11,7 @@
             // "program": "${workspaceFolder}\\dist\\src\\link-shortener.server.js",
             "program": "${workspaceFolder}\\link-shortener.server.ts",
             "outFiles": [
-                "${workspaceFolder}/**/*.js"
+                "${workspaceFolder}/dist/**/*.js"
             ]
         }
     ]

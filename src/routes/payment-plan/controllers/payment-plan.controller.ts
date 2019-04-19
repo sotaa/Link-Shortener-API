@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import _ from "lodash";
+import * as _ from "lodash";
 import { PaymentPlan } from "../../../models/entities/payment-plan.schema";
 
 export class PaymentPlanController {

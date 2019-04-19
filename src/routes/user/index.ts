@@ -1,5 +1,5 @@
 import { UserController } from './controllers/user.controller';
-import express from "express";
+import * as express from "express";
 import { AuthController } from "./controllers/auth.controller";
 import { UserPaths } from "./user.paths";
 

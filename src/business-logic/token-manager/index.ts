@@ -1,19 +1,19 @@
-import  path from 'path';
-import JWT from "jsonwebtoken";
-import fs from "fs";
-import expressJWT from "express-jwt";
+import  { resolve } from 'path';
+import {sign} from "jsonwebtoken";
+import { readFileSync } from "fs";
+import expressJWT = require("express-jwt");
 
 class TokenManager {
   private secretKey: string;
 
   constructor() {
     // read secret key from config.
-    this.secretKey = fs.readFileSync(path.resolve("src/config/settings/jwt-secret.key")).toString();
+    this.secretKey = readFileSync(resolve("src/config/settings/jwt-secret.key")).toString();
   }
 
   // generate the token.
   generate(data: any) {
-    return JWT.sign(data, this.secretKey, {
+    return sign(data, this.secretKey, {
       expiresIn: (Math.floor(Date.now() / 1000) * 60 * 60)
     });
   }

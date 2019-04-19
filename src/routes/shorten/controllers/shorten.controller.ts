@@ -1,8 +1,8 @@
 import { Link } from "./../../../models/entities/link.schema";
 import { Request, Response } from "express";
-import _ from "lodash";
+import * as _ from "lodash";
 import { parse as parseUserAgent } from "express-useragent";
-import path from "path";
+import * as path from "path";
 import { AnalyticsData } from "../../../models/interfaces/analytics-data.interface";
 const iplocation = require("iplocation");
 const PersianDate = require("persian-date");

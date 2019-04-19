@@ -1,4 +1,4 @@
-import express from "express";
+import * as express from "express";
 import {ShortenController} from "./controllers/shorten.controller";
 import { ShortenPaths } from "./shorten.paths";
 

@@ -1,4 +1,4 @@
-import path from "path";
+import { resolve } from "path";
 import { AppPaths } from "./app.paths";
 import LinkRoutes from "./link";
 import ShortenRoutes from "./shorten";
@@ -31,7 +31,7 @@ class AppRoutes {
 
     // use front end to handle routes of unknown routes.
     app.get("/*", (req: Request, res: Response) => {
-      res.sendFile(path.resolve("public/index.html"));
+      res.sendFile(resolve("public/index.html"));
     });
   }
 }

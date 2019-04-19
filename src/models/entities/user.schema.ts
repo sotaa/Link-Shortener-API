@@ -5,7 +5,7 @@ import Messages from "../../preferences/Messages";
 import isMobilePhone = require("validator/lib/isMobilePhone");
 import tokenManager from "../../business-logic/token-manager";
 import { TokenType } from "../interfaces/token.interface";
-import _ from "lodash";
+import { pick } from "lodash";
 import { genSalt, hash, compare } from "bcryptjs";
 const persianDate = require("persian-date");
 
@@ -76,7 +76,7 @@ UserSchema.methods.toJSON = function() {
     userObject.remainingDays = diff > 0 ? diff : 0;
   }
 
-  return _.pick(userObject, [
+  return pick(userObject, [
     "_id",
     "email",
     "mobile",

@@ -1,8 +1,12 @@
-import express, { Express as IExpress , Request , Response } from "express";
+import { Express as IExpress , Request , Response } from "express";
 import * as bodyParser from "body-parser";
-import cors from "cors";
+const cors = require("cors");
 import AppRoutes from "./routes";
 import Database from "./dal/database.config";
+import systemConsoleColors from "./config/colors/system-console.colors";
+
+const express = require('express');
+
 
 class App {
   private app: IExpress;
@@ -33,7 +37,7 @@ class App {
   // start the server using this method.
   listen(port: number | string) {
     this.app.listen(port , () => {
-      console.log(`link shortener web app is started on port ${port}`)
+      console.log(systemConsoleColors.success , `link shortener web app is started on port ${port}`)
     });
   }
 

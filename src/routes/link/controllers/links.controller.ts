@@ -1,6 +1,6 @@
 import { Link } from "./../../../models/entities/link.schema";
 import { Response, Request } from "express";
-import _ from "lodash";
+import * as _ from "lodash";
 import Messages from "../../../preferences/Messages";
 import user from "../../user";
 

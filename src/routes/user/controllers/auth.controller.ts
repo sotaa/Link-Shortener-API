@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import _ from "lodash";
+import * as _ from "lodash";
 import { User } from "../../../models/entities/user.schema";
 import Messages from "../../../preferences/Messages";
 import { IUser } from "../../../models/interfaces/user.interface";

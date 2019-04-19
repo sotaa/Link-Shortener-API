@@ -1,9 +1,9 @@
-import shortid from 'shortid';
+import { generate } from 'shortid';
 
 class ShortenLinkGenerator {
 
     generate() {
-       return shortid.generate()
+       return generate()
     }
 }
 

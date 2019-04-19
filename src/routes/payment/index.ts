@@ -1,5 +1,5 @@
 import { PaymentPaths } from './payment.paths';
-import express from 'express';
+import * as express from 'express';
 import { PaymentController } from './controllers/payment.controller';
 
 

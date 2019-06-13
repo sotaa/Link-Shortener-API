@@ -10,18 +10,18 @@ export const PaymentPlanSchema = new Schema({
   price: {
     type: Number,
     required: [true, Messages.paymentPlanMessages.planPriceIsRequired],
-    validate: {
-        validator: (value: number) => value > 0,
-        message: Messages.paymentPlanMessages.priceIsNotValid
-    }
+    validate: [
+        (value: number) => value > 0,
+        Messages.paymentPlanMessages.priceIsNotValid
+    ]
   },
   dateRange: {
     type: Number,
     required: [true, Messages.paymentPlanMessages.planPriceIsRequired],
-    validate: {
-        validator: (value: number) => value > 0,
-        message: Messages.paymentPlanMessages.priceIsNotValid
-    }
+    validate: [
+        (value: number) => value > 0,
+       Messages.paymentPlanMessages.priceIsNotValid
+    ]
   },
   isActive: {
       type: Boolean,

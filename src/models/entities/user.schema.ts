@@ -16,10 +16,10 @@ export const UserSchema = new Schema({
   },
   email: {
     type: String,
-    validate: {
-      validator: isEmail,
-      message: Messages.userMessages.emailIsIncorrect
-    },
+    validate:[ 
+       isEmail,
+       Messages.userMessages.emailIsIncorrect
+    ],
     trim: true,
     required: false,
     unique: true
@@ -32,12 +32,12 @@ export const UserSchema = new Schema({
   mobile: {
     type: String,
     required: false,
-    validate: {
-      validator: (value: string) => {
+    validate: [
+      (value: string) => {
         return isMobilePhone(value, "fa-IR");
       },
-      message: Messages.userMessages.mobileIsIncorrect
-    }
+        Messages.userMessages.mobileIsIncorrect
+    ]
   },
   tokens: [
     {

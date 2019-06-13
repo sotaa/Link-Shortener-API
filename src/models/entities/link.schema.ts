@@ -10,10 +10,10 @@ const PersianDate = require('persian-date');
 export const LinkSchema = new Schema({
   address: {
     type: String,
-    validate: {
-      validator: isURL,
-      message: Messages.linkMessages.linkIsNotCorrect
-    },
+    validate: [
+      isURL,
+      Messages.linkMessages.linkIsNotCorrect
+    ],
     required: [true , Messages.linkMessages.linkIsRequired]
   },
   userId: {

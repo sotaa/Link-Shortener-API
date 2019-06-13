@@ -28,7 +28,7 @@ export class AuthController {
   // login requests handler.
   login(req: Request , res: Response) {
     const data = _.pick(req.body , ["email" , "password"]);
-    User.findByCredentials(data).then((user: IUser) => {
+    User.schema.statics.findByCredentials(data).then((user: IUser) => {
       if(!user) {
         res.status(404).send({message: Messages.userMessages.loginFailed});
         return;

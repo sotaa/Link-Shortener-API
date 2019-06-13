@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { set, connect } from 'mongoose';
 import systemConsoleColors from '../config/colors/system-console.colors';
 const databaseConfig = require('../config/settings/database.config.json');
 
@@ -6,8 +7,8 @@ const databaseConfig = require('../config/settings/database.config.json');
 
     init() {
         (<any>mongoose).Promise = global.Promise;
-        mongoose.set('useCreateIndex', true);
-        mongoose.connect(databaseConfig.connectionString , {useNewUrlParser: true})
+        set('useCreateIndex', true);
+        connect(databaseConfig.connectionString , {useNewUrlParser: true})
         .then(info => {
             console.log(systemConsoleColors.success, 'Seccessfully connected to mongoDb.');
         }).catch(e => {

@@ -1,4 +1,7 @@
 export const AppPaths = {
     link: '/link',
-    shorten: '/'
+    shorten: '/',
+    auth: '/user',
+    paymentPlans: '/payment-plans',
+    payment: '/payment'
 }

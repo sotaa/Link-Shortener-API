@@ -1,3 +1,8 @@
-import Messages from '../config/lang/fa.json';
+const fs =require('fs');
+const path =require('path');
 
-export default Messages;
+const pathjson = path.resolve(__dirname,'../config/lang/fa.json');
+const data = fs.readFileSync(pathjson);
+const Messages = JSON.parse(data);
+
+export default Messages; 

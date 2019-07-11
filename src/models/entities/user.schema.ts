@@ -16,10 +16,10 @@ export const UserSchema = new Schema({
   },
   email: {
     type: String,
-    validate: {
-      validator: isEmail,
-      message: Messages.userMessages.emailIsIncorrect
-    },
+    validate:[ 
+       isEmail,
+       Messages.userMessages.emailIsIncorrect
+    ],
     trim: true,
     required: false,
     unique: true
@@ -32,12 +32,12 @@ export const UserSchema = new Schema({
   mobile: {
     type: String,
     required: false,
-    validate: {
-      validator: (value: string) => {
+    validate: [
+      (value: string) => {
         return isMobilePhone(value, "fa-IR");
       },
-      message: Messages.userMessages.mobileIsIncorrect
-    }
+        Messages.userMessages.mobileIsIncorrect
+    ]
   },
   tokens: [
     {
@@ -66,24 +66,32 @@ export const UserSchema = new Schema({
 UserSchema.methods.toJSON = function() {
   const user = this;
   var userObject = user.toObject();
-  userObject.remainingDays = 0;
+  return pick(userObject, [
+    "_id",
+    "email",
+    "mobile",
+    "name"
+  ]);
+};
 
+// check whether user is expired or not with boolean value.
+UserSchema.methods.isExpired = function() {
+  return this.getRemainingDays() == 0;
+}
+
+// returns user permium account remaining days in number format.
+UserSchema.methods.getRemainingDays = function() {
+  const user = this;
+  let remainingDays = 0;
   if (user.expireDate) {
     // calculate remaining days of user premium account.
     const userExpireDate = new persianDate(user.expireDate);
     const now = new persianDate();
     const diff = userExpireDate.diff(now , 'days');
-    userObject.remainingDays = diff > 0 ? diff : 0;
+    remainingDays = diff > 0 ? diff : 0;
   }
-
-  return pick(userObject, [
-    "_id",
-    "email",
-    "mobile",
-    "name",
-    "remainingDays"
-  ]);
-};
+  return remainingDays;
+}
 
 // generate auth token.
 UserSchema.methods.generateAuthToken = function() {
@@ -102,7 +110,8 @@ UserSchema.methods.generateAuthToken = function() {
 
 // get by credential method.
 UserSchema.statics.findByCredentials = function(credentials: any) {
-  const User = this;
+  // const User = this;
+  const User = model('User', UserSchema);
   return User.findOne({ email: credentials.email })
     .then(async (user: IUser) => {
       // reject the promise if the user does not found;

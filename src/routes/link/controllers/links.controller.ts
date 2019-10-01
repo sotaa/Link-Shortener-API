@@ -50,4 +50,21 @@ export default class LinksController {
             res.status(400).send(Messages.commonMessages.badRequest);
          });
    }
+
+   deleteUserLink(req: Request, res: Response) {
+      const user = req.user;
+      if (!user) {
+         res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
+         return;
+      }
+      const params = _.pick(req.params, "id");
+      Link.findByIdAndDelete(params.id)
+         .then(result => {
+            res.end();
+         })
+         .catch(err => {
+            console.error(err);
+            res.status(400).send(Messages.commonMessages.badRequest);
+         });
+   }
 }

@@ -19,7 +19,9 @@ class LinkRouter {
    // initial the routes link managements.
    private init() {
       this.router.route(LinkPaths.root).post(this.controller.create);
+      this.router.route(LinkPaths.singleLink).put(this.controller.update);
       this.router.route(LinkPaths.root).get(this.controller.getUserLinks);
+      this.router.route(LinkPaths.singleLink).get(this.controller.getUserLink);
       this.router
          .route(LinkPaths.singleLink)
          .delete(this.controller.deleteUserLink);

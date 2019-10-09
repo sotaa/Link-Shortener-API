@@ -31,7 +31,39 @@ export default class LinksController {
          });
    }
 
+   // update link shorten.
+   async update(req: Request, res: Response) {
+      let user = req.user;
+      if (!user) {
+         res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
+         return;
+      }
+      const params = _.pick(req.params, "id");
+      // user = await User.findById(req.user._id);
+
+      // // add userId;
+      // if (user.schema.methods.isExpired()) {
+      //    delete req.body.shorten;
+      //    // TODO: delete every property that is premium.
+      // }
+      // save the updated link.
+      const link = await Link.findByIdAndUpdate(
+         params.id,
+         {
+            address: req.body.address,
+            shorten: req.body.shorten
+         },
+         { new: true }
+      );
+      if (!link)
+         return res
+            .status(404)
+            .send("The Link with the given ID was not found.");
+      res.send(link);
+   }
+
    // get user created links.
+
    getUserLinks(req: Request, res: Response) {
       // get user that sends request.
       const user = req.user;
@@ -51,6 +83,28 @@ export default class LinksController {
          });
    }
 
+   // get user created link.
+   getUserLink(req: Request, res: Response) {
+      // get user that sends request.
+      const user = req.user;
+      if (!user) {
+         res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
+         return;
+      }
+      // find the link that belong to the user.
+      const params = _.pick(req.params, "id");
+      Link.findById(params.id)
+         .then(link => {
+            res.send(link);
+         })
+         .catch(err => {
+            //TODO: Handle the error.
+            console.error(err);
+            res.status(400).send(Messages.commonMessages.badRequest);
+         });
+   }
+
+   // delete user link.
    deleteUserLink(req: Request, res: Response) {
       const user = req.user;
       if (!user) {

@@ -7,6 +7,7 @@ export interface IUser extends Document {
    generateAuthToken(): Promise<string>;
    findByCredentials(): Promise<IUser>;
    getRemainingDays(): Promise<number>;
+   isExpired(): Promise<boolean>;
    name: string;
    email: string;
    password: string;

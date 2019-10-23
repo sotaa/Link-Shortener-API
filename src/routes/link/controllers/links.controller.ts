@@ -9,13 +9,17 @@ export default class LinksController {
    // create new link shorten.
    async create(req: Request, res: Response) {
       const link = new Link(req.body);
-      const user = await User.findById(req.user._id);
-
-      // add userId;
-      if (req.user) link.userId = req.user._id;
-      if (user.schema.methods.isExpired()) {
-         delete link.shorten;
-         // TODO: delete every property that is premium.
+      let user = req.user;
+      if (user) {
+         user = await User.findById(req.user._id);
+         // add userId;
+         if (req.user) link.userId = req.user._id;
+         //check user expire date
+         const isExpired = user.isExpired();
+         if (isExpired) {
+            delete link.shorten;
+            // TODO: delete every property that is premium.
+         }
       }
       // save the generated link.
       link
@@ -34,36 +38,43 @@ export default class LinksController {
    // update link shorten.
    async update(req: Request, res: Response) {
       let user = req.user;
+      let link;
+      let isExpired;
       if (!user) {
          res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
          return;
       }
-      const params = _.pick(req.params, "id");
-      // user = await User.findById(req.user._id);
-
-      // // add userId;
-      // if (user.schema.methods.isExpired()) {
-      //    delete req.body.shorten;
-      //    // TODO: delete every property that is premium.
-      // }
+      try {
+         user = await User.findById(req.user._id);
+         isExpired = user.isExpired();
+      } catch (err) {
+         return res.send(err.json());
+      }
       // save the updated link.
-      const link = await Link.findByIdAndUpdate(
-         params.id,
-         {
-            address: req.body.address,
-            shorten: req.body.shorten
-         },
-         { new: true }
-      );
-      if (!link)
+      const params = _.pick(req.params, "id");
+      try {
+         link = await Link.findById(params.id);
+      } catch {
          return res
             .status(404)
             .send("The Link with the given ID was not found.");
-      res.send(link);
+      }
+      try {
+         if (isExpired) {
+            link.address = req.body.address;
+         }
+         link.address = req.body.address;
+         if (req.body.shorten) {
+            link.shorten = req.body.shorten;
+         }
+         await link.save();
+      } catch (err) {
+         return res.status(400).send(err);
+      }
+      return res.send(link);
    }
 
    // get user created links.
-
    getUserLinks(req: Request, res: Response) {
       // get user that sends request.
       const user = req.user;

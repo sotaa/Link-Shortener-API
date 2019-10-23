@@ -22,6 +22,7 @@ export const LinkSchema = new Schema({
   },
   shorten: {
     type: String,
+    unique: true,
     required: Messages.linkMessages.shortenIsRequired,
     default: shortenLinkGenerator.generate
   },

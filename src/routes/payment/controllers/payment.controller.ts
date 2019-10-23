@@ -97,7 +97,7 @@ export class PaymentController {
               user.save().then(user => {
                 (<IPaymentLog>paymentLog).isSuccess = true;
                 (<IPaymentLog>paymentLog).save();
-                res.send(user.toJSON());
+                res.redirect( "/dashboard/link" );
               });
             } catch (err) {
               return Promise.reject(err);

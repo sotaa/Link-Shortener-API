@@ -8,18 +8,18 @@ pipeline {
   stages {
     stage('Install Dependencies') {
       steps {
-        sh '''rm package-lock.json
-npm i'''
+        bat 'rm package-lock.json'
+        bat 'npm i'
       }
     }
     stage('Build') {
       steps {
-        sh 'tsc'
+        bat 'tsc'
       }
     }
     stage('Launch') {
       steps {
-        sh 'node dist/App.js'
+        bat 'node dist/App.js'
       }
     }
   }

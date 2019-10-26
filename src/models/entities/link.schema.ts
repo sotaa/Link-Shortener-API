@@ -44,7 +44,7 @@ export const LinkSchema = new Schema({
 
 // add user data to a link data.
 LinkSchema.methods.addUserData = (userData: AnalyticsData, link: ILink) => {
-  return Link.update(
+  return Link.updateOne(
     { _id: new ObjectID(link._id) },
     { $push: { data: userData } }
   );

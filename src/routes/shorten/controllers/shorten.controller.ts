@@ -4,8 +4,13 @@ import * as _ from "lodash";
 import { parse as parseUserAgent } from "express-useragent";
 import * as path from "path";
 import { AnalyticsData } from "../../../models/interfaces/analytics-data.interface";
-const iplocation = require("iplocation");
+const geoip = require('geoip-lite');
+import systemConsoleColors from "../../../config/colors/system-console.colors";
+import { lookup } from "../../../libs/ipapi";
+import { readFileSync } from "fs";
 const PersianDate = require("persian-date");
+
+const ipapiKey = readFileSync(path.resolve(__dirname, '../../../config/settings/ipapi.key')).toString();
 
 export class ShortenController {
    // load a link by shorten code.
@@ -13,26 +18,40 @@ export class ShortenController {
       const params = _.pick(req.params, ["code"]);
       Link.findOne({ shorten: params.code })
          .select({ address: 1 })
-         .then(link => {
+         .then(async link => {
             if (link) {
-              const userIp =
-                req.header( "x-forwarded-for" ) ||
-                req.connection.remoteAddress ||
-                req.socket.remoteAddress;
-               iplocation(userIp, (err: any, loc: any) => {
-                  const userData: AnalyticsData = {
-                     ip: userIp || "",
-                     userAgent: parseUserAgent(req.headers["user-agent"] || ""),
-                     location: loc || err,
-                     date: new Date(),
-                     dateFa: new PersianDate(),
-                     referrer: req.headers.referer
-                  };
-                  console.log(userData);
-                  Link.schema.methods.addUserData(userData, link).then();
-               });
+               
                // redirect to destination.
                res.status(301).redirect(link.address);
+               
+               const userIp = req.ip ||
+                  req.header("x-forwarded-for") ||
+                  req.connection.remoteAddress ||
+                  req.socket.remoteAddress;
+
+               const userData: AnalyticsData = {
+                  ip: userIp || "",
+                  userAgent: parseUserAgent(req.headers["user-agent"] || ""),
+                  location: '',// loc || err,
+                  locationMinimalData: geoip.lookup(userIp),
+                  date: new Date(),
+                  dateFa: new PersianDate(),
+                  referrer: req.headers.referer
+               };
+               try {
+                  const loc = await lookup(userIp,ipapiKey)
+                  userData.location = loc.data;
+               } catch (e) {
+                  console.log(systemConsoleColors.error, e);
+                  userData.location = e;
+               }
+               
+               try {
+                  await (link as any).addUserData(userData, link);
+               } catch (e) {
+                  console.log(e);
+               }
+
             } else {
                res.sendFile(
                   path.resolve(__dirname, "../../../../public/index.html")

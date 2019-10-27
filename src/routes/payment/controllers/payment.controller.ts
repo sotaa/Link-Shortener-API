@@ -35,7 +35,7 @@ export class PaymentController {
     myZPal
       .PaymentRequest({
         Amount: plan.price, // In Tomans
-        CallbackURL: "http://localhost:3000/payment/verify",
+        CallbackURL: "http://links.we360.ir/payment/verify",
         Description: description,
         email: user.email
       })

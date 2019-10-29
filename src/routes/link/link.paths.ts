@@ -1,4 +1,5 @@
 export const LinkPaths = {
-root: '/',
-category: '/category'
-}
+   root: "/",
+   singleLink: "/:id",
+   category: "/category"
+};

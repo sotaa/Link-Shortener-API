@@ -35,7 +35,7 @@ export class PaymentController {
     myZPal
       .PaymentRequest({
         Amount: plan.price, // In Tomans
-        CallbackURL: "http://localhost:3000/payment/verify",
+        CallbackURL: "http://links.we360.ir/payment/verify",
         Description: description,
         email: user.email
       })
@@ -97,7 +97,7 @@ export class PaymentController {
               user.save().then(user => {
                 (<IPaymentLog>paymentLog).isSuccess = true;
                 (<IPaymentLog>paymentLog).save();
-                res.send(user.toJSON());
+                res.redirect( "/dashboard/link" );
               });
             } catch (err) {
               return Promise.reject(err);

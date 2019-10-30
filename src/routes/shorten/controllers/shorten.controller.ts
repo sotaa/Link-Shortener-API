@@ -67,21 +67,37 @@ export class ShortenController {
    // get link analytics information.
    async info(req: Request, res: Response) {
       try {
+         // get the link
          const params = _.pick(req.params, "code");
          const link = await Link.findOne({ shorten: params.code });
          if (!link) {
             res.status(404).send([]);
             return;
          }
+         // check user remainingDays
          let userIsExpired = true;
          if (req.user) {
             const user = await User.findById(req.user._id);
             userIsExpired = await user.isExpired();
          }
-
+         // fetch intended data
          const platforms = _.countBy(link.data, "userAgent.os");
          const browsers = _.countBy(link.data, "userAgent.browser");
          const locations = _.countBy(link.data, "location.country_name");
+         let devices;
+         if (userIsExpired) {
+            devices = {
+               mobiles: null,
+               tablets: null,
+               desktops: null
+            };
+         } else {
+            devices = {
+               mobiles: _.countBy(link.data, d => d.userAgent.isMobile).true,
+               tablets: _.countBy(link.data, d => d.userAgent.isTablet).true,
+               desktops: _.countBy(link.data, d => d.userAgent.isDesktop).true
+            };
+         }
          let locationDetails;
          if (userIsExpired) {
             locationDetails = {
@@ -95,10 +111,12 @@ export class ShortenController {
                continents: _.countBy(link.data, "location.continent_name"),
                regions: _.countBy(link.data, "location.region_name"),
                cities: _.countBy(link.data, "location.city"),
-               languages: _.countBy(link.data, "location.location.languages")
+               languages: _.countBy(
+                  link.data,
+                  "location.location.languages[0].name"
+               )
             };
          }
-
          const referrers = _.countBy(link.data, l => {
             if ((<AnalyticsData>l).referrer) return l.referrer;
          });
@@ -107,6 +125,7 @@ export class ShortenController {
             return pdate.year() + "/" + pdate.month() + "/" + pdate.day();
          });
 
+         // send intended data to client
          res.json({
             totalCount: link.data.length,
             linkInfo: {
@@ -121,6 +140,7 @@ export class ShortenController {
             locationDetails,
             platforms,
             clicksByDate,
+            devices,
             userIsExpired
          });
       } catch (err) {

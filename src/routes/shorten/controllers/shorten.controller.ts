@@ -10,6 +10,7 @@ import { lookup } from "../../../libs/ipapi";
 import { readFileSync } from "fs";
 import { User } from "../../../models/entities/user.schema";
 const PersianDate = require("persian-date");
+import { compare } from "bcryptjs";
 
 const ipapiKey = readFileSync(
    path.resolve(__dirname, "../../../config/settings/ipapi.key")
@@ -70,9 +71,22 @@ export class ShortenController {
          // get the link
          const params = _.pick(req.params, "code");
          const link = await Link.findOne({ shorten: params.code });
+
          if (!link) {
             res.status(404).send([]);
             return;
+         }
+         // check if the link has password
+         let password;
+         if (link.password) {
+            password = req.headers.linkpassword;
+            if (!password) {
+               return res.status(401).end();
+            }
+            const passIsCorrect = await compare(password, link.password);
+            if (!passIsCorrect) {
+               return res.status(400).end();
+            }
          }
          // check user remainingDays
          let userIsExpired = true;

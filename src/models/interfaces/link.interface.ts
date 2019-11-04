@@ -11,4 +11,5 @@ export interface ILink extends Document {
    data: AnalyticsData[];
    createDateFa: any;
    password: string;
+   private: boolean;
 }

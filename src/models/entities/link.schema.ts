@@ -39,6 +39,9 @@ export const LinkSchema = new Schema({
    },
    password: {
       type: String
+   },
+   private: {
+      type: Boolean
    }
 });
 

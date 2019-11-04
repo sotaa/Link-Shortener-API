@@ -77,7 +77,11 @@ export default class LinksController {
             const salt = await genSalt(10);
             const hashedPass = await hash(req.body.password, salt);
             link.password = hashedPass;
+         } else {
+            link.password = null;
          }
+         link.private = req.body.private;
+
          await link.save();
       } catch (err) {
          return res.status(400).send(err);
@@ -95,7 +99,7 @@ export default class LinksController {
       }
       // find the links that belong to the user.
       Link.find({ userId: user._id })
-         .select("-data")
+         .select("-data -password")
          .then(links => {
             res.send(links);
          })
@@ -119,6 +123,9 @@ export default class LinksController {
       Link.findById(params.id)
          .select("-data")
          .then(link => {
+            if (link.password) {
+               link.password = "hasPassword";
+            }
             res.send(link);
          })
          .catch(err => {

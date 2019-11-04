@@ -87,7 +87,15 @@ export class ShortenController {
             if (!passIsCorrect) {
                return res.status(400).end();
             }
+         } else {
+            // after the link does not have password,check the link private property
+            if (link.private) {
+               if (!req.user || link.userId != req.user._id) {
+                  return res.status(403).end();
+               }
+            }
          }
+
          // check user remainingDays
          let userIsExpired = true;
          if (req.user) {

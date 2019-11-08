@@ -38,7 +38,8 @@ export const LinkSchema = new Schema({
       default: []
    },
    password: {
-      type: String
+      type: String,
+      min:3
    },
    private: {
       type: Boolean

@@ -77,7 +77,11 @@ export default class LinksController {
             const salt = await genSalt(10);
             const hashedPass = await hash(req.body.password, salt);
             link.password = hashedPass;
-         } else {
+         }
+         if (req.body.password === undefined) {
+            link.password;
+         }
+         if (req.body.password === "") {
             link.password = null;
          }
          link.private = req.body.private;

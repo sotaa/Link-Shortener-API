@@ -153,6 +153,15 @@ export class LinksController {
     Link.find({ userId: user._id })
       .select("-data -password")
       .then(links => {
+        let tags = req.query.tags;
+        if (tags) {
+          if (typeof tags === "string") {
+            tags = [tags];
+          }
+          links = links.filter(
+            link => _.intersection(tags, link.categories).length === tags.length
+          );
+        }
         res.send(links);
       })
       .catch(err => {
@@ -230,6 +239,10 @@ export class LinksController {
     }
     return temp;
   }
+
+  // findCommonItem2(array1: ILink[], array2) {
+  //   links =  link.filter( link => _.intersection( this.selectedTags, link.categories ).length === this.selectedTags.length);
+  //   }
 }
 
 // POST: /api/v1/links?apikey=743hjkfjgdpu90

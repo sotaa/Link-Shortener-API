@@ -31,7 +31,7 @@ export class PaymentController {
     const description = " بابت پلن " + plan.name + " به نام : " + user.name;
 
     // zarinpal payment
-    const myZPal = zPal.create("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", true);
+    const myZPal = zPal.create("563baf06-2025-11ea-992d-000c295eb8fc", true);
     myZPal
       .PaymentRequest({
         Amount: plan.price, // In Tomans

@@ -31,11 +31,11 @@ export class PaymentController {
     const description = " بابت پلن " + plan.name + " به نام : " + user.name;
 
     // zarinpal payment
-    const myZPal = zPal.create("563baf06-2025-11ea-992d-000c295eb8fc", true);
+    const myZPal = zPal.create("563baf06-2025-11ea-992d-000c295eb8fc", false);
     myZPal
       .PaymentRequest({
         Amount: plan.price, // In Tomans
-        CallbackURL: "http://links.we360.ir/payment/verify",
+        CallbackURL: "http://marketals.com/payment/verify",
         Description: description,
         email: user.email
       })
@@ -97,7 +97,7 @@ export class PaymentController {
               user.save().then(user => {
                 (<IPaymentLog>paymentLog).isSuccess = true;
                 (<IPaymentLog>paymentLog).save();
-                res.redirect( "/dashboard/link" );
+                res.redirect("/dashboard/link");
               });
             } catch (err) {
               return Promise.reject(err);

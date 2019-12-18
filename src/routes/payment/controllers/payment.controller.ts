@@ -35,7 +35,7 @@ export class PaymentController {
     myZPal
       .PaymentRequest({
         Amount: plan.price, // In Tomans
-        CallbackURL: "http://marketals.com/payment/verify",
+        CallbackURL: "http://links.marketals.com/payment/verify",
         Description: description,
         email: user.email
       })

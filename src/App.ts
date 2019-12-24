@@ -4,6 +4,9 @@ const cors = require("cors");
 import AppRoutes from "./routes";
 import Database from "./dal/database.config";
 import systemConsoleColors from "./config/colors/system-console.colors";
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+
 
 const express = require('express');
 
@@ -19,9 +22,22 @@ class App {
   private init() {
  
     // initial needed middlewares.
-    this.app.use(bodyParser.json());
+    // this.app.use(bodyParser.json());
     this.app.use(cors({preflightContinue:true})); // allow cross origin requests.
     
+    // rate limit for preventing DDOS attacks.
+    const limit = rateLimit({
+      max: 1000,
+      windowMs: 60 * 60 * 1000, // One hour
+      message: 'Too many requests'
+    });
+    this.app.use(limit);
+    
+    // use helmet for increase the security.
+    this.app.use(helmet({permittedCrossDomainPolicies: true}))
+
+
+
     // initial public folder to be available on the web.
     this.app.use(express.static('public'));
 

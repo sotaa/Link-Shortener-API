@@ -22,7 +22,7 @@ class App {
   private init() {
  
     // initial needed middlewares.
-    // this.app.use(bodyParser.json());
+    this.app.use(bodyParser.json());
     this.app.use(cors({preflightContinue:true})); // allow cross origin requests.
     
     // rate limit for preventing DDOS attacks.

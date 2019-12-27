@@ -35,7 +35,7 @@ export class PaymentController {
     myZPal
       .PaymentRequest({
         Amount: plan.price, // In Tomans
-        CallbackURL: "http://links.marketals.com/payment/verify",
+        CallbackURL: "http://20800.ir/payment/verify",
         Description: description,
         email: user.email
       })
@@ -97,7 +97,7 @@ export class PaymentController {
               user.save().then(user => {
                 (<IPaymentLog>paymentLog).isSuccess = true;
                 (<IPaymentLog>paymentLog).save();
-                res.redirect("/dashboard/link");
+                res.redirect("http://20800.ir/dashboard/link");
               });
             } catch (err) {
               return Promise.reject(err);

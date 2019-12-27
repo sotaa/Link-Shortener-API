@@ -8,6 +8,7 @@ export class AuthController {
   // register new user.
   register(req: Request, res: Response) {
     const data = _.pick(req.body, ["email", "password", "name"]);
+    data.email = data.email.toLowerCase();
     const user = new User(data);
 
     // save user to database.
@@ -27,6 +28,7 @@ export class AuthController {
   // login requests handler.
   login(req: Request, res: Response) {
     const data = _.pick(req.body, ["email", "password"]);
+    data.email = data.email.toLowerCase();
     User.schema.statics
       .findByCredentials(data)
       .then((user: IUser) => {

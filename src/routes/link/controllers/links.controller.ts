@@ -12,13 +12,14 @@ export class LinksController {
   async create(req: Request, res: Response) {
     const link = new Link(req.body);
     let user = req.user;
+    let isExpired = true;
     if (user) {
       user = await User.findById(req.user._id);
+      isExpired = user.isExpired();
       // add userId;
       if (req.user) link.userId = req.user._id;
     }
     //check user expire date
-    const isExpired = user.isExpired();
     if (isExpired) {
       delete link.shorten;
       delete link.password;

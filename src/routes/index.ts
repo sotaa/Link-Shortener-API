@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 import { Express as IExpress } from "express";
 import PaymentRoutes from "./payment";
 import tokenManager from "../business-logic/token-manager";
-import { RequestHandler } from 'express-jwt';
+import { RequestHandler } from "express-jwt";
 
 class AppRoutes {
   private authMiddleware: RequestHandler;
@@ -18,16 +18,11 @@ class AppRoutes {
   }
   init(app: IExpress) {
     // link routes.
-    app.use(AppPaths.link,this.authMiddleware, LinkRoutes);
+    app.use(AppPaths.link, this.authMiddleware, LinkRoutes);
     // shorten routes.
-    app.use(AppPaths.shorten,this.authMiddleware, ShortenRoutes);
+    app.use(AppPaths.shorten, this.authMiddleware, ShortenRoutes);
     // auth routes.
-    app.use(AppPaths.auth, AuthRoutes);
-    // payment plans.
-    app.use(AppPaths.paymentPlans,this.authMiddleware, PaymentPlanRoutes);
-    // payments like checkout and verify controllers.
-    app.use(AppPaths.payment,this.authMiddleware, PaymentRoutes);
-
+    app.use(AppPaths.auth, this.authMiddleware, AuthRoutes);
 
     // use front end to handle routes of unknown routes.
     app.get("/*", (req: Request, res: Response) => {

@@ -1,6 +1,7 @@
 {
   "linkMessages": {
     "linkIsRequired": "لینک اجباری است",
+    "passwordMustBeAtLeast3Character": "کلمه عبور باید حداقل 3 حرف باشد",
     "shortenIsRequired": "مقدار کوتاه شده لینک تولید نشده است",
     "createDateIsRequired": "تاریخ ثبت تولید نشده است",
     "linkIsNotCorrect": "لینک صحیح نیست لطفا لینک را با \"http://\" , \"https://\" و یا \"ftp://\" شروع کنید"
@@ -15,14 +16,12 @@
     "userIsNotAuthenticated": "کاربر احراز هویت نشده است",
     "userNotFound": "کاربر مورد نظر یافت نشد"
   },
-
   "paymentPlanMessages": {
     "planNameIsRequired": "لطفا نام پلن را وارد نمایید",
     "planPriceIsRequired": "لطفا قیمت پلن را وارد نمایید",
     "priceIsNotValid": "مقدار مبلغ صحیح نیست",
     "dateRangeIsNotValid": "مقدار بازه زمانی صحیح نیست"
   },
-
   "paymentMessages": {
     "planIsNotDefined": "پلن مالی مشخص نشده است",
     "authorityIsNotDefined": "کلید مالی ارسال نشده است",

@@ -100,10 +100,6 @@ export class ShortenController {
 
       // check user remainingDays
       let userIsExpired = true;
-      // if (req.user) {
-      //   const user = await User.findById(req.user._id);
-      //   userIsExpired = await user.isExpired();
-      //  }
       const userHelper = new Helper();
       const remain = await userHelper.getRemainingDays(req.user);
       remain && remain > 0 ? (userIsExpired = false) : (userIsExpired = true);

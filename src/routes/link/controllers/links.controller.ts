@@ -2,8 +2,6 @@ import { Link } from "./../../../models/entities/link.schema";
 import { Response, Request } from "express";
 import * as _ from "lodash";
 import Messages from "../../../preferences/Messages";
-//import user from "../../user";
-import { User } from "../../../models/entities/user.schema";
 import { Helper } from "../../user/controllers/userHelper";
 import { Category } from "../../../models/entities/category.schema";
 import { genSalt, hash } from "bcryptjs";
@@ -26,33 +24,45 @@ export class LinksController {
       delete link.password;
       delete link.private;
       delete link.categories;
-    } else if (link.password) {
-      // Hash Password
-      const salt = await genSalt(10);
-      const hashedPass = await hash(link.password, salt);
-      link.password = hashedPass;
-    } else if (link.categories) {
-      // Log categories to category collection
-      Category.findOne({ userId: user.user.id }).then((categories) => {
-        if (categories) {
-          // find and delete common items
-          let array1 = categories.data;
-          let array2 = link.categories;
-          let temp = this.findCommonItem(array1, array2);
-          Category.updateOne(
-            { userId: user.user.id },
-            { $push: { data: temp } },
-          ).then((result) => console.log(result));
-        } else {
-          categories = new Category({
-            userId: user.user.id,
-            data: link.categories,
-          });
-          categories.save().then((result) => {
-            console.log(result);
-          });
+    } else {
+      if (link.password) {
+        if (link.password.length < 3) {
+          return res
+            .status(400)
+            .send(Messages.linkMessages.passwordMustBeAtLeast3Character);
         }
-      });
+        // Hash Password
+        const salt = await genSalt(10);
+        const hashedPass = await hash(link.password, salt);
+        link.password = hashedPass;
+      }
+      if (link.categories) {
+        // Log categories to category collection
+        Category.findOne({ userId: user.user.id })
+          .then((categories) => {
+            if (categories) {
+              // find and delete common items
+              let array1 = categories.data;
+              let array2 = link.categories;
+              let temp = this.findCommonItem(array1, array2);
+              Category.updateOne(
+                { userId: user.user.id },
+                { $push: { data: temp } },
+              ).then((result) => console.log(result));
+            } else {
+              categories = new Category({
+                userId: user.user.id,
+                data: link.categories,
+              });
+              categories.save().then((result) => {
+                console.log(result);
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
 
     // save the generated link.
@@ -75,8 +85,7 @@ export class LinksController {
     let link;
     let isExpired;
     if (!user) {
-      res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
-      return;
+      return res.status(403).send(Messages.userMessages.userIsNotAuthenticated);
     }
     const userHelper = new Helper();
     const remain = await userHelper.getRemainingDays(req.user);
@@ -102,12 +111,17 @@ export class LinksController {
         link.shorten = req.body.shorten;
       }
       if (req.body.password) {
-        const salt = await genSalt(10);
-        const hashedPass = await hash(req.body.password, salt);
-        link.password = hashedPass;
-      }
-      if (req.body.password === undefined) {
-        link.password;
+        if (req.body.password.length < 3) {
+          return res
+            .status(400)
+            .send(Messages.linkMessages.passwordMustBeAtLeast3Character);
+        } else if (req.body.password == "hasPassword") {
+          delete link.password;
+        } else {
+          const salt = await genSalt(10);
+          const hashedPass = await hash(req.body.password, salt);
+          link.password = hashedPass;
+        }
       }
       if (req.body.password === "") {
         link.password = null;
@@ -147,7 +161,7 @@ export class LinksController {
     // get user that sends request.
     const user = req.user;
     if (!user) {
-      res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
+      res.status(403).send(Messages.userMessages.userIsNotAuthenticated);
       return;
     }
     // find the links that belong to the user.
@@ -178,7 +192,7 @@ export class LinksController {
     // get user that sends request.
     const user = req.user;
     if (!user) {
-      res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
+      res.status(403).send(Messages.userMessages.userIsNotAuthenticated);
       return;
     }
     // find the link that belong to the user.
@@ -201,9 +215,9 @@ export class LinksController {
   // delete user link.
   async deleteUserLink(req: Request, res: Response) {
     let user = req.user;
-    let isExpired;
+    let isExpired: boolean;
     if (!user) {
-      res.send(403).send(Messages.userMessages.userIsNotAuthenticated);
+      res.status(403).send(Messages.userMessages.userIsNotAuthenticated);
       return;
     }
     const userHelper = new Helper();
